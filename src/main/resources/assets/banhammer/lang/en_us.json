@@ -1,0 +1,19 @@
+{
+  "banhammer.banreason": "Ban Reason",
+  "banhammer.setbanreason" : "Set Ban Reason and Length",
+  "banhammer.reasonInput" : "Reason",
+  "banhammer.hours" : "Hours (Optional)",
+  "banhammer.days" : "Days (Optional)",
+  "banhammer.hoursInput" : "Hours",
+  "banhammer.daysInput" : "Days",
+  "banhammer.kickreason" : "Kick Reason",
+  "banhammer.setkickreason" : "Set Kick Reason",
+  "item.banhammer.ban_hammer" : "Ban Hammer",
+  "item.banhammer.ban_hammer.description": "Right Click to set the ban reason and time\nLeft click on a player to ban them\nLeft click on a mob to instantly kill them",
+  "item.banhammer.ban_hammer.hold_shift": "Hold [SHIFT] for instructions",
+  "item.banhammer.kick_stick" : "Kick Stick",
+  "banhammer.hours_error": "Hours must be an integer or empty",
+  "banhammer.days_error": "Days must be an integer or empty",
+  "banhammer.errortitle": "ERROR",
+  "death.attack.ban.player": "%1$s was banned by %2$s"
+}
