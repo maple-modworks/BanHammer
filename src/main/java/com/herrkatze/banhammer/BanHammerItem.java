@@ -13,8 +13,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -63,9 +61,6 @@ public class BanHammerItem extends Item {
                 Player targetPlayer = (Player) target;
                 Level lvl = targetPlayer.getLevel();
                 if (lvl instanceof ServerLevel && attackerPlayer.hasPermissions(3)) {
-                    LightningBolt lightningBolt = new LightningBolt(EntityType.LIGHTNING_BOLT,target.getLevel());
-                    lightningBolt.setPos(target.getX(),target.getY(),target.getZ());
-                    target.getLevel().addFreshEntity(lightningBolt);
                     targetPlayer.hurt(new EntityDamageSource("ban.player", attackerPlayer).bypassArmor().bypassEnchantments().bypassInvul().bypassMagic(), targetPlayer.getHealth() * 6 + targetPlayer.getAbsorptionAmount() * 6);
                     ServerLevel serverlvl = (ServerLevel) lvl;
                     MinecraftServer server = serverlvl.getServer();
@@ -89,13 +84,14 @@ public class BanHammerItem extends Item {
                     server.getPlayerList().getPlayer(profile.getId()).connection.disconnect(Component.translatable("multiplayer.disconnect.banned").append(". Reason:  ").append(reason));
                     return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
                 }
+                else if (lvl instanceof ServerLevel && !attackerPlayer.hasPermissions(3)) {
+                    stack.setCount(0);
+                }
             }
-            LightningBolt lightningBolt = new LightningBolt(EntityType.LIGHTNING_BOLT,target.getLevel());
-            lightningBolt.setPos(target.getX(),target.getY(),target.getZ());
-            target.getLevel().addFreshEntity(lightningBolt);
-            target.hurt(new EntityDamageSource("ban.player", attackerPlayer).bypassArmor().bypassEnchantments().bypassInvul().bypassMagic(), target.getHealth() * 6 + target.getAbsorptionAmount() * 6);
+            else {
+                target.hurt(new EntityDamageSource("ban.player", attackerPlayer).bypassArmor().bypassEnchantments().bypassInvul().bypassMagic(), target.getHealth() * 6 + target.getAbsorptionAmount() * 6);
+            }
         }
-
         return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
     }
 

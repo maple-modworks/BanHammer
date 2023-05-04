@@ -12,7 +12,7 @@ public class BHErrorScreen extends Screen {
     private Component err;
 
     protected Button doneButton;
-    protected BHErrorScreen(String err) {
+    public BHErrorScreen(String err) {
         super(GameNarrator.NO_TITLE);
         this.err = Component.translatable(err);
     }
