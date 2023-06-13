@@ -85,7 +85,15 @@ public class BanHammerItem extends Item {
                     return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
                 }
                 else if (lvl instanceof ServerLevel && !attackerPlayer.hasPermissions(3)) {
+                    ServerLevel serverlvl = (ServerLevel) lvl;
+                    MinecraftServer server = serverlvl.getServer();
+                    UserBanList userbanlist = server.getPlayerList().getBans();
+                    GameProfile profile = attackerPlayer.getGameProfile();
                     stack.setCount(0);
+                    UserBanListEntry ble = new UserBanListEntry(profile,new Date(),attackerPlayer.getDisplayName().getString(),new Date(3600),"Illegally used Ban Hammer\nBanned for 1 day");
+                    userbanlist.add(ble);
+                    server.getPlayerList().getPlayer(profile.getId()).connection.disconnect(Component.translatable("multiplayer.disconnect.banned").append(". Reason:  ").append("Illegally used Ban Hammer"));
+
                 }
             }
             else {
