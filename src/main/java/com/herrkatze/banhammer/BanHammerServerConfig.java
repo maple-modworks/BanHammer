@@ -1,10 +1,8 @@
 package com.herrkatze.banhammer;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
 
-public class BanHammerConfig {
+public class BanHammerServerConfig {
     public static final ForgeConfigSpec GENERAL_SPEC;
 
     static {

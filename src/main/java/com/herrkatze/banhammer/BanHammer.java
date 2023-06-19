@@ -2,11 +2,8 @@ package com.herrkatze.banhammer;
 
 import com.herrkatze.banhammer.lists.itemList;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,12 +14,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkDirection;
-import net.minecraft.world.entity.monster.Spider;
 import org.slf4j.Logger;
 
 import java.util.Optional;
 
-import static com.herrkatze.banhammer.BanHammerConfig.GENERAL_SPEC;
+import static com.herrkatze.banhammer.BanHammerServerConfig.GENERAL_SPEC;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(BanHammer.MODID)
@@ -48,6 +44,7 @@ public class BanHammer
         itemList.ITEMS.register(modEventBus);
         // Register forge config
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER,GENERAL_SPEC,"banhammer-server.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON,BanHammerCommonConfig.GENERAL_SPEC,"banhammer-common.toml");
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         int id = 0;

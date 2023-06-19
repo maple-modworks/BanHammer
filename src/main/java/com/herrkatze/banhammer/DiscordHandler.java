@@ -10,9 +10,9 @@ public class DiscordHandler {
     }
 
     public static DiscordWebhook hook(){
-        DiscordWebhook hook = new DiscordWebhook(BanHammerConfig.discordWebhookURL.get());
-        hook.setUsername(BanHammerConfig.discordWebhookUsername.get());
-        hook.setAvatarUrl(BanHammerConfig.discordWebhookAvatar.get());
+        DiscordWebhook hook = new DiscordWebhook(BanHammerServerConfig.discordWebhookURL.get());
+        hook.setUsername(BanHammerServerConfig.discordWebhookUsername.get());
+        hook.setAvatarUrl(BanHammerServerConfig.discordWebhookAvatar.get());
         return hook;
     }
 
