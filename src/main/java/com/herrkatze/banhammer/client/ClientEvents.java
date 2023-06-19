@@ -1,6 +1,7 @@
 package com.herrkatze.banhammer.client;
 
 import com.herrkatze.banhammer.BHErrorScreen;
+import com.herrkatze.banhammer.BHReportScreen;
 import com.herrkatze.banhammer.BanHammer;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,7 +16,7 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
             if (KeyBinds.REPORT_KEY.consumeClick()) {
-                Minecraft.getInstance().setScreen(new BHErrorScreen("item.banhammer.ban_hammer"));
+                Minecraft.getInstance().setScreen(new BHReportScreen());
             }
         }
         @Mod.EventBusSubscriber(modid = BanHammer.MODID,value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)

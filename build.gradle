@@ -161,8 +161,8 @@ jar {
     manifest {
         attributes([
                 "Specification-Title"     : "banhammer",
-                "Specification-Vendor"    : "examplemodsareus",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Specification-Vendor"    : "Herr Katze",
+                "Specification-Version"   : "2", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "examplemodsareus",
