@@ -13,7 +13,7 @@ public class BanHammerCommonConfig {
     public static ForgeConfigSpec.BooleanValue shouldSelfBanIfNotOp;
 
     private static void setupConfig(ForgeConfigSpec.Builder builder) {
-    shouldSelfBanIfNotOp = builder.define("shouldSelfBanIfNotOp",false);
+    shouldSelfBanIfNotOp = builder.define("shouldSelfBanIfNotOp",true);
 
 
     }

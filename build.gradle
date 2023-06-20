@@ -27,7 +27,7 @@ println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty '
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
     // Channel:   Version:
-    // official   MCVersion             Official field/method names from Mojang mapping files
+    // official   MCVersion             Official field/method names from Mojang mapping grafiles
     // parchment  YYYY.MM.DD-MCVersion  Open community-sourced parameter names and javadocs layered on top of official
     //
     // You must be aware of the Mojang license when using the 'official' or 'parchment' mappings.

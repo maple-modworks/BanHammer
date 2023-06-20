@@ -86,7 +86,7 @@ public class BanHammerItem extends Item {
                 }
                 else if (lvl instanceof ServerLevel && !attackerPlayer.hasPermissions(3)) {
                     stack.setCount(0);
-                    if(BanHammerCommonConfig.shouldSelfBanIfNotOp.get()) {
+                    if(BanHammerCommonConfig.shouldSelfBanIfNotOp.get() && !attackerPlayer.hasPermissions(2)) {
                         ServerLevel serverlvl = (ServerLevel) lvl;
                         MinecraftServer server = serverlvl.getServer();
                         UserBanList userbanlist = server.getPlayerList().getBans();
