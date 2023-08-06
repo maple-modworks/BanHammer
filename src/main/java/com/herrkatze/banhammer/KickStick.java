@@ -13,6 +13,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import java.io.IOException;
+import java.util.Date;
+
 public class KickStick extends Item {
 
 
@@ -56,6 +59,15 @@ public class KickStick extends Item {
                     reason = Tag.getString("reason");
                 }
                 server.getPlayerList().getPlayer(profile.getId()).connection.disconnect(Component.literal(reason));
+                DiscordWebhook hook = DiscordHandler.hook(true);
+                String kickreason = "Reason: "+reason;
+                hook.setContent(targetPlayer.getDisplayName().getString() + " was Kicked!");
+                hook.addEmbed(new DiscordWebhook.EmbedObject().setTitle(targetPlayer.getDisplayName().getString()).setDescription(kickreason).setFooter(attackerPlayer.getDisplayName().getString(),"https://mc-heads.net/head/"+ attackerPlayer.getUUID() + "/right",new Date()).setThumbnail("https://mc-heads.net/head/"+targetPlayer.getUUID()+"/right"));
+                try {
+                    hook.execute();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         return super.onLeftClickEntity(stack,attackerPlayer,targetEntity);

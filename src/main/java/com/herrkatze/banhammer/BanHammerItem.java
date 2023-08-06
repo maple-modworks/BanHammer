@@ -21,6 +21,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -82,6 +83,19 @@ public class BanHammerItem extends Item {
                     userbanlist.add(banListEntry);
 
                     server.getPlayerList().getPlayer(profile.getId()).connection.disconnect(Component.translatable("multiplayer.disconnect.banned").append(". Reason:  ").append(reason));
+                    DiscordWebhook hook = DiscordHandler.hook(true);
+                    String banreason = "Reason: "+reason;
+                    if(expiryTime != null) {
+                        banreason = banreason + "\\nExpires: <t:" +expiryTime.getTime()/1000+":F>";
+                    }
+                    hook.setContent(targetPlayer.getDisplayName().getString() + " was Banned!");
+                    hook.addEmbed(new DiscordWebhook.EmbedObject().setTitle(targetPlayer.getDisplayName().getString()).setDescription(banreason).setFooter(attackerPlayer.getDisplayName().getString(),"https://mc-heads.net/head/"+ attackerPlayer.getUUID() + "/right",new Date()).setThumbnail("https://mc-heads.net/head/"+targetPlayer.getUUID()+"/right"));
+                    try {
+                        hook.execute();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                     return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
                 }
                 else if (lvl instanceof ServerLevel && !attackerPlayer.hasPermissions(3)) {

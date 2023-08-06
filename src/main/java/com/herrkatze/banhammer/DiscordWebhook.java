@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Class used to execute Discord Webhooks with low effort
@@ -92,6 +91,10 @@ public class DiscordWebhook {
                     jsonFooter.put("text", footer.getText());
                     jsonFooter.put("icon_url", footer.getIconUrl());
                     jsonEmbed.put("footer", jsonFooter);
+                    TimeZone tz = TimeZone.getTimeZone("UTC");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+                    df.setTimeZone(tz);
+                    jsonEmbed.put("timestamp",df.format(footer.timestamp));
                 }
 
                 if (image != null) {
@@ -210,8 +213,8 @@ public class DiscordWebhook {
             return this;
         }
 
-        public EmbedObject setFooter(String text, String icon) {
-            this.footer = new Footer(text, icon);
+        public EmbedObject setFooter(String text, String icon, Date timestamp) {
+            this.footer = new Footer(text, icon, timestamp);
             return this;
         }
 
@@ -238,10 +241,12 @@ public class DiscordWebhook {
         private class Footer {
             private String text;
             private String iconUrl;
+            private Date timestamp;
 
-            private Footer(String text, String iconUrl) {
+            private Footer(String text, String iconUrl,Date timestamp) {
                 this.text = text;
                 this.iconUrl = iconUrl;
+                this.timestamp = timestamp;
             }
 
             private String getText() {
