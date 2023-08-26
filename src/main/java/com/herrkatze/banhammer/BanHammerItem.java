@@ -19,11 +19,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import static net.minecraftforge.fml.loading.FMLEnvironment.dist;
 
 
 public class BanHammerItem extends Item {
@@ -32,7 +36,7 @@ public class BanHammerItem extends Item {
     }
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if(hand == InteractionHand.MAIN_HAND && world.isClientSide()){
+        if(hand == InteractionHand.MAIN_HAND && dist == Dist.CLIENT){
             BanHammerScreenLoader.loadBanReasonGui(player,false);
         }
         return super.use(world, player, hand);

@@ -12,9 +12,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
 
 import java.io.IOException;
 import java.util.Date;
+
+import static net.minecraftforge.fml.loading.FMLEnvironment.dist;
 
 public class KickStick extends Item {
 
@@ -25,7 +28,7 @@ public class KickStick extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if(hand == InteractionHand.MAIN_HAND){
+        if(hand == InteractionHand.MAIN_HAND && dist == Dist.CLIENT){
             BanHammerScreenLoader.loadBanReasonGui(player,true);
         }
         return super.use(world, player, hand);
