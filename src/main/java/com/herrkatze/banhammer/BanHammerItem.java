@@ -65,7 +65,7 @@ public class BanHammerItem extends Item {
             if (target instanceof Player) {
                 Player targetPlayer = (Player) target;
                 Level lvl = targetPlayer.getLevel();
-                if (lvl instanceof ServerLevel && attackerPlayer.hasPermissions(3)) {
+                if (lvl instanceof ServerLevel && attackerPlayer.hasPermissions(BanHammerServerConfig.banHammerPermissionLevel.get())) {
                     targetPlayer.hurt(new EntityDamageSource("ban.player", attackerPlayer).bypassArmor().bypassEnchantments().bypassInvul().bypassMagic(), targetPlayer.getHealth() * 6 + targetPlayer.getAbsorptionAmount() * 6);
                     ServerLevel serverlvl = (ServerLevel) lvl;
                     MinecraftServer server = serverlvl.getServer();
@@ -97,14 +97,14 @@ public class BanHammerItem extends Item {
                     try {
                         hook.execute();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        BanHammer.LOGGER.error("Failed to execute Webhook");
                     }
 
                     return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
                 }
-                else if (lvl instanceof ServerLevel && !attackerPlayer.hasPermissions(3)) {
+                else if (lvl instanceof ServerLevel && !attackerPlayer.hasPermissions(BanHammerServerConfig.banHammerPermissionLevel.get())) {
                     stack.setCount(0);
-                    if(BanHammerCommonConfig.shouldSelfBanIfNotOp.get() && !attackerPlayer.hasPermissions(2)) {
+                    if(BanHammerCommonConfig.shouldSelfBanIfNotOp.get() && !attackerPlayer.hasPermissions(BanHammerServerConfig.selfBanPermissionLevel.get())) {
                         ServerLevel serverlvl = (ServerLevel) lvl;
                         MinecraftServer server = serverlvl.getServer();
                         UserBanList userbanlist = server.getPlayerList().getBans();
@@ -113,6 +113,15 @@ public class BanHammerItem extends Item {
                         UserBanListEntry ble = new UserBanListEntry(profile, new Date(), attackerPlayer.getDisplayName().getString(), new Date(3600), "Illegally used Ban Hammer\nBanned for 1 day");
                         userbanlist.add(ble);
                         server.getPlayerList().getPlayer(profile.getId()).connection.disconnect(Component.translatable("multiplayer.disconnect.banned").append(". Reason:  ").append("Illegally used Ban Hammer"));
+                        DiscordWebhook hook = DiscordHandler.hook(true);
+                        hook.setContent(attackerPlayer.getDisplayName().getString() + " was Banned!");
+                        hook.addEmbed(new DiscordWebhook.EmbedObject().setTitle(attackerPlayer.getDisplayName().getString()).setDescription("Illegally used Ban Hammer\\nExpires: <t:" + new Date(new Date().getTime() + 24 * 3600 * 1000).getTime() + ":F>").setThumbnail("https://mc-heads.net/head/"+attackerPlayer.getUUID()+"/right").setFooter("Self Ban","https://mc-heads.net/head/"+attackerPlayer.getUUID()+"/right",new Date()));
+                        try {
+                            hook.execute();
+                        } catch (IOException e) {
+                            BanHammer.LOGGER.error("Failed to execute Webhook");
+                        }
+
                     }
                 }
             }
