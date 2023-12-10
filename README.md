@@ -4,7 +4,8 @@ which upon hitting a player with it, will ban them from the server for a specifi
 
 To set the ban reason and ban length, right click the item. This is the screen you will get
 
-Hey! Herr Katze! Put the image here!
+![Ban Hammer Screen](https://github.com/scmcgowen/BanHammer/assets/34895975/ace024bf-2669-4f17-b592-31e2fe8c3973)
+
 
 The other item is the Kick Stick
 
