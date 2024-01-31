@@ -50,7 +50,7 @@ public class KickStick extends Item {
     public boolean  onLeftClickEntity(ItemStack stack, Player attackerPlayer, Entity targetEntity) {
         if (targetEntity instanceof Player) {
             Player targetPlayer = (Player) targetEntity;
-            Level lvl = targetPlayer.getLevel();
+            Level lvl = targetPlayer.level();
             if (lvl instanceof ServerLevel && attackerPlayer.hasPermissions(3)) {
                 ServerLevel serverlvl = (ServerLevel) lvl;
                 MinecraftServer server = serverlvl.getServer();

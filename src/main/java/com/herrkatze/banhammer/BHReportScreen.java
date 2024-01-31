@@ -2,6 +2,7 @@ package com.herrkatze.banhammer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.GameNarrator;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,11 +23,10 @@ public class BHReportScreen extends Screen {
         super(GameNarrator.NO_TITLE);
     }
     protected void init() {
-        this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
 
-        this.doneButton = this.addRenderableWidget(new Button(this.width / 2-75 , this.height / 4 + 120 + 12, 150, 20, CommonComponents.GUI_DONE, (p_97691_) -> {
+        this.doneButton = this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (p_97691_) -> {
             this.onDone();
-        }));
+        }).bounds(this.width / 2-75 , this.height / 4 + 120 + 12, 150, 20).build());
         this.reasonBox = new EditBox(this.font, this.width / 2 - 150, 90, 300, 20, Component.translatable("banhammer.reasonInput")) {};
         this.usernameBox = new EditBox(this.font, this.width / 2 - 50, 50, 100, 20, Component.translatable("banhammer.usernameInput")) {};
 
@@ -52,28 +52,16 @@ public class BHReportScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        this.renderBackground(pPoseStack);
-        drawCenteredString(pPoseStack, this.font, REPORT_SCREEN_TITLE, this.width / 2, 20, 0xFFFFFF);
-        drawString(pPoseStack, this.font, REPORT_USERNAME, this.width / 2-50 , 40, 0xA0A0A0);
-        drawString(pPoseStack,this.font,REPORT_REASON,this.width/2 - 150,80,0xA0A0A0);
-        drawString(pPoseStack,this.font,REPORT_EVIDENCE,this.width/2-150,120,0xA0A0A0);
-        this.usernameBox.render(pPoseStack,pMouseX,pMouseY,pPartialTick);
-        this.reasonBox.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        this.evidenceBox.render(pPoseStack,pMouseX,pMouseY,pPartialTick);
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-    }
-    public void renderBackground(PoseStack pPoseStack) {
-        this.renderBackground(pPoseStack, 0);
-    }
-    public void renderBackground(PoseStack pPoseStack, int pVOffset) {
-        if (this.minecraft.level != null) {
-            this.fillGradient(pPoseStack, 0, 0, this.width, this.height, -1072689136, -804253680);
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.ScreenEvent.BackgroundRendered(this, pPoseStack));
-        } else {
-            this.renderDirtBackground(pVOffset);
-        }
-
+    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
+        this.renderBackground(graphics);
+        graphics.drawCenteredString(this.font, REPORT_SCREEN_TITLE, this.width / 2, 20, 0xFFFFFF);
+        graphics.drawString(this.font, REPORT_USERNAME, this.width / 2-50 , 40, 0xA0A0A0);
+        graphics.drawString(this.font,REPORT_REASON,this.width/2 - 150,80,0xA0A0A0);
+        graphics.drawString(this.font,REPORT_EVIDENCE,this.width/2-150,120,0xA0A0A0);
+        this.usernameBox.render(graphics,pMouseX,pMouseY,pPartialTick);
+        this.reasonBox.render(graphics, pMouseX, pMouseY, pPartialTick);
+        this.evidenceBox.render(graphics,pMouseX,pMouseY,pPartialTick);
+        super.render(graphics, pMouseX, pMouseY, pPartialTick);
     }
 
 }

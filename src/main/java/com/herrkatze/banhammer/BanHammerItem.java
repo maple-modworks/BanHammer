@@ -1,8 +1,11 @@
 package com.herrkatze.banhammer;
 
+import com.herrkatze.banhammer.lists.damageTypeList;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -11,7 +14,8 @@ import net.minecraft.server.players.UserBanList;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -64,9 +68,11 @@ public class BanHammerItem extends Item {
             LivingEntity target = (LivingEntity) targetEntity;
             if (target instanceof Player) {
                 Player targetPlayer = (Player) target;
-                Level lvl = targetPlayer.getLevel();
+                Level lvl = targetPlayer.level();
                 if (lvl instanceof ServerLevel && attackerPlayer.hasPermissions(BanHammerServerConfig.banHammerPermissionLevel.get())) {
-                    targetPlayer.hurt(new EntityDamageSource("ban.player", attackerPlayer).bypassArmor().bypassEnchantments().bypassInvul().bypassMagic(), targetPlayer.getHealth() * 6 + targetPlayer.getAbsorptionAmount() * 6);
+                    Registry<DamageType> damageTypeRegistry = lvl.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+                    DamageSource source = new DamageSource(damageTypeRegistry.getHolderOrThrow(damageTypeList.BAN),targetPlayer,attackerPlayer);
+                    targetPlayer.hurt(source, targetPlayer.getHealth() * 6 + targetPlayer.getAbsorptionAmount() * 6);
                     ServerLevel serverlvl = (ServerLevel) lvl;
                     MinecraftServer server = serverlvl.getServer();
                     UserBanList userbanlist = server.getPlayerList().getBans();
@@ -126,7 +132,10 @@ public class BanHammerItem extends Item {
                 }
             }
             else {
-                target.hurt(new EntityDamageSource("ban.player", attackerPlayer).bypassArmor().bypassEnchantments().bypassInvul().bypassMagic(), target.getHealth() * 6 + target.getAbsorptionAmount() * 6);
+                Level lvl = attackerPlayer.level();
+                Registry<DamageType> damageTypeRegistry = lvl.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+                DamageSource source = new DamageSource(damageTypeRegistry.getHolderOrThrow(damageTypeList.BAN),target,attackerPlayer);
+                target.hurt(source, target.getHealth() * 6 + target.getAbsorptionAmount() * 6);
             }
         }
         return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
