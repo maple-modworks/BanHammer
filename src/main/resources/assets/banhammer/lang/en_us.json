@@ -15,7 +15,7 @@
   "banhammer.hours_error": "Hours must be an integer or empty",
   "banhammer.days_error": "Days must be an integer or empty",
   "banhammer.errortitle": "ERROR",
-  "death.attack.ban.player": "%1$s was banned by %2$s",
+  "death.attack.ban": "%1$s was banned by %2$s",
   "banhammer.reportscreentitle": "Report a Player",
   "banhammer.reportreason": "Report Reason",
   "banhammer.reportusername": "Player Username",
