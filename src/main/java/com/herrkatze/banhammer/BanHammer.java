@@ -2,8 +2,10 @@ package com.herrkatze.banhammer;
 
 import com.herrkatze.banhammer.lists.itemList;
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -73,6 +75,13 @@ public class BanHammer
         public static void onClientSetup(FMLClientSetupEvent event)
         {
 
+        }
+        @SubscribeEvent
+        public static void BuildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+            if(event.getTabKey() == CreativeModeTabs.OP_BLOCKS) {
+                event.accept(itemList.BAN_HAMMER);
+                event.accept(itemList.KICK_STICK);
+            }
         }
     }
 }
