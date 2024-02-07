@@ -1,6 +1,8 @@
 package com.herrkatze.banhammer;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -13,11 +15,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import static net.minecraftforge.fml.loading.FMLEnvironment.dist;
 
@@ -35,7 +40,19 @@ public class KickStick extends Item {
         }
         return super.use(world, player, hand);
     }
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        if(Screen.hasShiftDown()) {
+            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".description_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".description_2").withStyle(ChatFormatting.GOLD));
+        }
+        else{
+            pTooltipComponents.add(Component.translatable("banhammer.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
 
+        }
+
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
     @Override
     public boolean isEnchantable(ItemStack pStack) {
         return false;

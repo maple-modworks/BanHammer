@@ -49,10 +49,12 @@ public class BanHammerItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(Screen.hasShiftDown()) {
-            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".description").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".description_1").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".description_2").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".description_3").withStyle(ChatFormatting.GOLD));
         }
         else{
-            pTooltipComponents.add(Component.translatable(this.getDescriptionId() + ".hold_shift").withStyle(ChatFormatting.DARK_GRAY));
+            pTooltipComponents.add(Component.translatable("banhammer.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
