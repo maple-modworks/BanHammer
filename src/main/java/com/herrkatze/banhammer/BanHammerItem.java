@@ -18,6 +18,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -66,6 +67,7 @@ public class BanHammerItem extends Item {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player attackerPlayer, Entity targetEntity) {
+        BanHammer.LOGGER.debug("Hit possible Target: " + targetEntity.toString());
         if (targetEntity instanceof LivingEntity) {
             LivingEntity target = (LivingEntity) targetEntity;
             if (target instanceof Player) {
@@ -135,10 +137,19 @@ public class BanHammerItem extends Item {
             }
             else {
                 Level lvl = attackerPlayer.level();
+                BanHammer.LOGGER.debug("Hit Entity: ",target);
                 Registry<DamageType> damageTypeRegistry = lvl.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
                 DamageSource source = new DamageSource(damageTypeRegistry.getHolderOrThrow(damageTypeList.BAN),target,attackerPlayer);
                 target.hurt(source, target.getHealth() * 6 + target.getAbsorptionAmount() * 6);
             }
+        } else if (targetEntity instanceof EnderDragonPart) {
+
+            Level lvl = attackerPlayer.level();
+            EnderDragonPart target = (EnderDragonPart) targetEntity;
+            BanHammer.LOGGER.debug("Hit Entity: ",target);
+            Registry<DamageType> damageTypeRegistry = lvl.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+            DamageSource source = new DamageSource(damageTypeRegistry.getHolderOrThrow(damageTypeList.BAN),target,attackerPlayer);
+            target.hurt(source, target.parentMob.getHealth() * 6 + target.parentMob.getAbsorptionAmount() * 6);
         }
         return super.onLeftClickEntity(stack, attackerPlayer, targetEntity);
     }
