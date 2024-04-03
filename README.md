@@ -13,7 +13,8 @@ As with the Ban Hammer, right click to set the kick reason.
 
 
 
-Both items require level 3 op and will break upon being used outside of Creative mode to prevent abuse of stolen banhammer items.
+Both items require level 3 op and will delete themselves and ban the holder to prevent abuse of stolen banhammer items.
+The required op level is configurable.
 
 # Reporting
 Use the Report key to send a report to server staff. The default key is F7 but can be changed in the keybinds screen
