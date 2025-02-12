@@ -1,8 +1,8 @@
 {
-  "banhammer.banreason": "Ban Reason",
-  "banhammer.setbanreason": "Set Ban Reason and Length",
-  "banhammer.reasonInput": "Reason",
-  "banhammer.hours": "Hours (Optional)",
+  "banhammer.banreason": "Причина бана",
+  "banhammer.setbanreason": "Задать причину бана и длительность",
+  "banhammer.reasonInput": "Причина",
+  "banhammer.hours": "Часов (необязательно)",
   "banhammer.days": "Days (Optional)",
   "banhammer.hoursInput": "Hours",
   "banhammer.daysInput": "Days",
